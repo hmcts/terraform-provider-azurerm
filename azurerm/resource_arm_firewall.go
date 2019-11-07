@@ -86,6 +86,8 @@ func resourceArmFirewall() *schema.Resource {
 				},
 			},
 
+			"zones": azure.SchemaMultipleZones(),
+
 			"tags": tags.Schema(),
 		},
 	}
@@ -121,6 +123,7 @@ func resourceArmFirewallCreateUpdate(d *schema.ResourceData, meta interface{}) e
 	location := azure.NormalizeLocation(d.Get("location").(string))
 	t := d.Get("tags").(map[string]interface{})
 	ipConfigs, subnetToLock, vnetToLock, err := expandArmFirewallIPConfigurations(d)
+	zones := azure.ExpandZones(d.Get("zones").([]interface{}))
 	if err != nil {
 		return fmt.Errorf("Error Building list of Azure Firewall IP Configurations: %+v", err)
 	}
@@ -140,6 +143,7 @@ func resourceArmFirewallCreateUpdate(d *schema.ResourceData, meta interface{}) e
 		AzureFirewallPropertiesFormat: &network.AzureFirewallPropertiesFormat{
 			IPConfigurations: ipConfigs,
 		},
+		Zones: zones,
 	}
 
 	if !d.IsNewResource() {
@@ -215,6 +219,10 @@ func resourceArmFirewallRead(d *schema.ResourceData, meta interface{}) error {
 		if err := d.Set("ip_configuration", flattenArmFirewallIPConfigurations(props.IPConfigurations)); err != nil {
 			return fmt.Errorf("Error setting `ip_configuration`: %+v", err)
 		}
+	}
+
+	if err := d.Set("zones", azure.FlattenZones(read.Zones)); err != nil {
+		return fmt.Errorf("Error setting `zones`: %+v", err)
 	}
 
 	return tags.FlattenAndSet(d, read.Tags)
