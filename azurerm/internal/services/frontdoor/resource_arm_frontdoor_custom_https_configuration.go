@@ -123,7 +123,7 @@ func resourceArmFrontDoorCustomHttpsConfigurationCreateUpdate(d *schema.Resource
 
 	customHttpsProvisioningEnabled := d.Get("custom_https_provisioning_enabled").(bool)
 	customHttpsConfigurationNew := d.Get("custom_https_configuration").([]interface{})
-	err = resourceArmFrontDoorFrontendEndpointCustomHttpsConfigurationUpdate(d, *resp.ID, customHttpsProvisioningEnabled, frontDoorName, frontendEndpointName, resourceGroup, resp.CustomHTTPSProvisioningState, resp.CustomHTTPSConfiguration, customHttpsConfigurationNew, meta)
+	err = resourceArmFrontDoorFrontendEndpointCustomHttpsConfigurationUpdate(ctx, d, *resp.ID, customHttpsProvisioningEnabled, frontDoorName, frontendEndpointName, resourceGroup, resp.CustomHTTPSProvisioningState, resp.CustomHTTPSConfiguration, customHttpsConfigurationNew, meta)
 	if err != nil {
 		return fmt.Errorf("Unable to update Custom HTTPS configuration for Frontend Endpoint %q (Resource Group %q): %+v", frontendEndpointName, resourceGroup, err)
 	}
@@ -190,7 +190,7 @@ func resourceArmFrontDoorCustomHttpsConfigurationDelete(d *schema.ResourceData, 
 	}
 
 	customHttpsConfigurationNew := make([]interface{}, 0)
-	err = resourceArmFrontDoorFrontendEndpointCustomHttpsConfigurationUpdate(d, *resp.ID, false, frontDoorName, frontendEndpointName, resourceGroup, resp.CustomHTTPSProvisioningState, resp.CustomHTTPSConfiguration, customHttpsConfigurationNew, meta)
+	err = resourceArmFrontDoorFrontendEndpointCustomHttpsConfigurationUpdate(ctx, d, *resp.ID, false, frontDoorName, frontendEndpointName, resourceGroup, resp.CustomHTTPSProvisioningState, resp.CustomHTTPSConfiguration, customHttpsConfigurationNew, meta)
 	if err != nil {
 		return fmt.Errorf("unable to disable Custom HTTPS configuration for Frontend Endpoint %q (Resource Group %q): %+v", frontendEndpointName, resourceGroup, err)
 	}
