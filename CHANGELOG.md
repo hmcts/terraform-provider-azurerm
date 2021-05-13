@@ -2,6 +2,7 @@
 
 FEATURES:
 
+* **New Resource:** `azurerm_monitor_aad_diagnostic_setting` [GH-11660]
 * **New Resource:** `azurerm_sentinel_alert_rule_machine_learning_behavior_analytics` [GH-11552]
 
 ENHANCEMENTS:
@@ -10,9 +11,11 @@ ENHANCEMENTS:
 * dependencies: updating `databox` to API version `2020-12-01` [GH-11626]
 * Data Source: `azurerm_kubernetes_cluster` - Add `ingress_application_gateway_identity` export for add-on `ingress_application_gateway` [GH-11622]
 * `azurerm_cosmosdb_account` - support for the `backup` property [GH-11597]
+* `azurerm_frontdoor_custom_https_configuration` - Add support for resource import. [GH-11642]
 * `azurerm_kubernetes_cluster` - export the `ingress_application_gateway_identity` attribute for the `ingress_application_gateway` add-on [GH-11622]
 * `azurerm_managed_disk` - support for the `tier` property [GH-11634]
 * `azurerm_storage_account` - support for the `azure_files_identity_based_authentication` and `routing_preference` blocks [GH-11485]
+* `azurerm_storage_account` - support for the `private_link_access` property [GH-11629]
 
 BUG FIXES
 
